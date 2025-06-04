@@ -1,5 +1,0 @@
-flask
-ariadne
-mysql-connector-python
-SQLAlchemy
-python-dotenv
