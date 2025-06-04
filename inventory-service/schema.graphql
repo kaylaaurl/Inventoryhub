@@ -1,0 +1,22 @@
+type Item {
+  id: ID!
+  name: String!
+  category: String!
+  quantity: Int!
+  location: String
+  status: String
+}
+
+type Query {
+  getItems: [Item!]!
+}
+
+type Mutation {
+  addItem(
+    name: String!,
+    category: String!,
+    quantity: Int!,
+    location: String,
+    status: String
+  ): Item
+}
