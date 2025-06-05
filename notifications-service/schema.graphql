@@ -1,0 +1,15 @@
+type Notification {
+  id: ID!
+  user_id: Int!
+  item_id: Int!
+  message: String!
+  status: String!
+}
+
+type Query {
+  getNotifications: [Notification!]!
+}
+
+type Mutation {
+  addNotification(user_id: Int!, item_id: Int!, message: String!, status: String): Notification
+}
