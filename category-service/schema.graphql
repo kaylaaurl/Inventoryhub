@@ -1,0 +1,13 @@
+type Category {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Query {
+  getCategories: [Category!]!
+}
+
+type Mutation {
+  addCategory(name: String!, description: String): Category
+}

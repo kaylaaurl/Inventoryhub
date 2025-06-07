@@ -1,0 +1,22 @@
+type Supplier {
+  id: ID!
+  name: String!
+  contact_person: String
+  phone: String
+  email: String
+  address: String
+}
+
+type Query {
+  getSuppliers: [Supplier!]!
+}
+
+type Mutation {
+  addSupplier(
+    name: String!,
+    contact_person: String,
+    phone: String,
+    email: String,
+    address: String
+  ): Supplier
+}
