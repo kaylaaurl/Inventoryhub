@@ -1,6 +1,6 @@
 DB_CONFIG = {
     "user": "root",
-    "password": "",  # kosong sesuai instruksi
+    "password": "",  
     "host": "localhost",
     "database": "inventory_db"
 }

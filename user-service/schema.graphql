@@ -11,4 +11,8 @@ type Query {
 type Mutation {
   register(username: String!, password: String!, role: String!): User
   login(username: String!, password: String!): String
+  updateUser(id: ID!, username: String, password: String, role: String): User
+  deleteUser(id: ID!): Boolean
 }
+
+

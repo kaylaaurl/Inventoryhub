@@ -35,3 +35,36 @@ def resolve_login(_, info, username, password):
     if user:
         return f"Login success! Role: {user.role}"
     return "Invalid credentials"
+
+@mutation.field("updateUser")
+def resolve_update_user(_, info, id, username=None, password=None, role=None):
+    db = SessionLocal()
+    user = db.query(User).filter_by(id=id).first()
+    if not user:
+        db.close()
+        return None
+
+    if username:
+        user.username = username
+    if password:
+        user.password = password
+    if role:
+        user.role = role
+
+    db.commit()
+    db.refresh(user)
+    db.close()
+    return user
+
+@mutation.field("deleteUser")
+def resolve_delete_user(_, info, id):
+    db = SessionLocal()
+    user = db.query(User).filter_by(id=id).first()
+    if not user:
+        db.close()
+        return False
+
+    db.delete(user)
+    db.commit()
+    db.close()
+    return True
