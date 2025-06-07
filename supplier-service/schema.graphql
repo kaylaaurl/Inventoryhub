@@ -9,6 +9,7 @@ type Supplier {
 
 type Query {
   getSuppliers: [Supplier!]!
+  getSupplier(id: ID!): Supplier
 }
 
 type Mutation {
@@ -19,4 +20,18 @@ type Mutation {
     email: String,
     address: String
   ): Supplier
+
+  updateSupplier(
+    id: ID!, 
+    name: String, 
+    contact_person: String, 
+    phone: String, 
+    email: String, 
+    address: String
+    ): Supplier
+
+    deleteSupplier(
+      id: ID!
+      ): Boolean
+
 }
