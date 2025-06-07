@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - "5001:5001"
+    depends_on:
+      - user-db
+
+  user-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: user_service_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    volumes:
+      - user-db-data:/var/lib/mysql
+
+  inventory-service:
+    build: ./inventory-service
+    ports:
+      - "5002:5002"
+    depends_on:
+      - inventory-db
+
+  inventory-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: inventory_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    volumes:
+      - inventory-db-data:/var/lib/mysql
+
+  category-service:
+    build: ./category-service
+    ports:
+      - "5003:5003"
+    depends_on:
+      - category-db
+
+  category-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: category_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    volumes:
+      - category-db-data:/var/lib/mysql
+
+  supplier-service:
+    build: ./supplier-service
+    ports:
+      - "5004:5004"
+    depends_on:
+      - supplier-db
+
+  supplier-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: supplier_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    volumes:
+      - supplier-db-data:/var/lib/mysql
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "5005:5005"
+    depends_on:
+      - notification-db
+
+  notification-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: notification_db
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    volumes:
+      - notification-db-data:/var/lib/mysql
+
+volumes:
+  user-db-data:
+  inventory-db-data:
+  category-db-data:
+  supplier-db-data:
+  notification-db-data:

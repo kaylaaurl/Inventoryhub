@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>InventoryHub GraphQL UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+    <h1 class="text-2xl font-bold mb-4 text-center">InventoryHub GraphQL Explorer</h1>
+    <form method="POST">
+      <div class="mb-4">
+        <label class="block font-semibold mb-1">Pilih Service:</label>
+        <select name="service" class="w-full p-2 border rounded">
+          <option value="user">User Service</option>
+          <option value="inventory">Inventory Service</option>
+          <option value="category">Category Service</option>
+          <option value="supplier">Supplier Service</option>
+          <option value="notification">Notification Service</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label class="block font-semibold mb-1">GraphQL Query / Mutation:</label>
+        <textarea name="query" rows="8" class="w-full p-2 border rounded font-mono text-sm"></textarea>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kirim</button>
+    </form>
+
+    {% if result %}
+      <div class="mt-6">
+        <h2 class="text-lg font-semibold mb-2">Hasil:</h2>
+        <pre class="bg-gray-800 text-green-300 p-4 rounded overflow-auto text-sm">{{ result | tojson(indent=2) }}</pre>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
