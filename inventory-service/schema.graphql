@@ -19,4 +19,15 @@ type Mutation {
     location: String,
     status: String
   ): Item
+
+  updateItem(
+    id: ID!,
+    name: String,
+    category: String,
+    quantity: Int,
+    location: String,
+    status: String
+  ): Item
+
+deleteItem(id: ID!): Boolean
 }

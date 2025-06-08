@@ -26,3 +26,40 @@ def resolve_add_item(_, info, name, category, quantity, location=None, status="a
     db.refresh(new_item)
     db.close()
     return new_item
+
+@mutation.field("updateItem")
+def resolve_update_item(_, info, id, name=None, category=None, quantity=None, location=None, status=None):
+    db = SessionLocal()
+    item = db.query(Item).filter_by(id=id).first()
+    if not item:
+        db.close()
+        return None
+
+    if name:
+        item.name = name
+    if category:
+        item.category = category
+    if quantity is not None:
+        item.quantity = quantity
+    if location:
+        item.location = location
+    if status:
+        item.status = status
+
+    db.commit()
+    db.refresh(item)
+    db.close()
+    return item
+
+@mutation.field("deleteItem")
+def resolve_delete_item(_, info, id):
+    db = SessionLocal()
+    item = db.query(Item).filter_by(id=id).first()
+    if not item:
+        db.close()
+        return False
+
+    db.delete(item)
+    db.commit()
+    db.close()
+    return True
