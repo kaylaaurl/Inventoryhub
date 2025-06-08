@@ -26,3 +26,36 @@ def resolve_add_category(_, info, name, description=None):
         return None
     finally:
         db.close()
+
+@mutation.field("updateCategory")
+def resolve_update_category(_, info, id, name=None, description=None):
+    db = SessionLocal()
+    category = db.query(Category).filter_by(id=id).first()
+    if not category:
+        db.close()
+        return None
+    if name is not None:
+        category.name = name
+    if description is not None:
+        category.description = description
+    try:
+        db.commit()
+        db.refresh(category)
+        return category
+    except IntegrityError:
+        db.rollback()
+        return None
+    finally:
+        db.close()
+
+@mutation.field("deleteCategory")
+def resolve_delete_category(_, info, id):
+    db = SessionLocal()
+    category = db.query(Category).filter_by(id=id).first()
+    if not category:
+        db.close()
+        return False
+    db.delete(category)
+    db.commit()
+    db.close()
+    return True

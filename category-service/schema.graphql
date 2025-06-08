@@ -10,4 +10,6 @@ type Query {
 
 type Mutation {
   addCategory(name: String!, description: String): Category
+  updateCategory(id: ID!, name: String, description: String): Category
+  deleteCategory(id: ID!): Boolean
 }
