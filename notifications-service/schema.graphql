@@ -8,8 +8,11 @@ type Notification {
 
 type Query {
   getNotifications: [Notification!]!
+  getNotificationById(id: ID!): Notification
 }
 
 type Mutation {
   addNotification(user_id: Int!, item_id: Int!, message: String!, status: String): Notification
+  updateNotification(id: ID!, message: String, status: String): Notification
+  deleteNotification(id: ID!): Boolean
 }
