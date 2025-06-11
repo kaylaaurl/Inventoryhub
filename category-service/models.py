@@ -1,9 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from config import DB_CONFIG
+from sqlalchemy import Column, Integer, String
+from config import Base, SessionLocal
 
-Base = declarative_base()
 
 class Category(Base):
     __tablename__ = 'categories'
@@ -12,6 +9,3 @@ class Category(Base):
     name = Column(String(100), unique=True, nullable=False)
     description = Column(String(255))
 
-url = f"mysql+mysqlconnector://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
-engine = create_engine(url)
-SessionLocal = sessionmaker(bind=engine)

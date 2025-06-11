@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from ariadne import graphql_sync, make_executable_schema, load_schema_from_path
 from resolvers import query, mutation
-from models import Base, engine
+from config import Base, engine  # Ambil dari config
+# models cukup import class-nya saja
+from models import Supplier
 
 app = Flask(__name__)
 
@@ -48,4 +50,4 @@ def graphql_server():
     return jsonify(result), 200
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5004)
+    app.run(debug=True, port=5003, host="0.0.0.0")

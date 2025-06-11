@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kelola Supplier</title>
+</head>
+<body>
+  <h1>🚚 Kelola Supplier</h1>
+
+  <h2>➕ Tambah / Update Supplier</h2>
+  <form method="POST">
+    <input type="hidden" name="action" value="add">
+    <label>Nama: <input name="name" required></label><br>
+    <label>Contact Person: <input name="contact_person"></label><br>
+    <label>Telepon: <input name="phone"></label><br>
+    <label>Email: <input name="email"></label><br>
+    <label>Alamat: <input name="address"></label><br>
+    <button type="submit">Tambah</button>
+  </form>
+
+  <h2>📋 Daftar Supplier</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Nama</th>
+      <th>Contact Person</th>
+      <th>Telepon</th>
+      <th>Email</th>
+      <th>Alamat</th>
+      <th>Aksi</th>
+    </tr>
+    {% for sup in suppliers %}
+    <tr>
+      <td>{{ sup.id }}</td>
+      <td>{{ sup.name }}</td>
+      <td>{{ sup.contact_person }}</td>
+      <td>{{ sup.phone }}</td>
+      <td>{{ sup.email }}</td>
+      <td>{{ sup.address }}</td>
+      <td>
+        <!-- Form Delete -->
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="id" value="{{ sup.id }}">
+          <button type="submit">Hapus</button>
+        </form>
+
+        <!-- Form Update -->
+        <form method="POST" style="display:inline; margin-left: 10px;">
+          <input type="hidden" name="action" value="update">
+          <input type="hidden" name="id" value="{{ sup.id }}">
+          <input name="name" placeholder="Nama baru">
+          <input name="contact_person" placeholder="CP baru">
+          <input name="phone" placeholder="Telepon baru">
+          <input name="email" placeholder="Email baru">
+          <input name="address" placeholder="Alamat baru">
+          <button type="submit">Update</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+</body>
+</html>

@@ -1,9 +1,6 @@
-from sqlalchemy import create_engine, Column, Integer, String, Enum
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from config import DB_CONFIG
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String
+from config import Base, SessionLocal
+from sqlalchemy import Enum
 
 class Notification(Base):
     __tablename__ = 'notifications'
@@ -14,6 +11,4 @@ class Notification(Base):
     message = Column(String(255), nullable=False)
     status = Column(Enum('sent', 'pending', 'read'), default='pending')
 
-url = f"mysql+mysqlconnector://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
-engine = create_engine(url)
-SessionLocal = sessionmaker(bind=engine)
+
