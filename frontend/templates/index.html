@@ -365,13 +365,16 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>
-    // Helper fetch count from service
-    async function fetchCount(url, key) {
+    // Helper fetch count from GraphQL proxy endpoint
+    async function fetchCountGraphQL(proxyUrl, query, path) {
       try {
-        const res = await fetch(url);
+        const res = await fetch(proxyUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+        });
         const data = await res.json();
-        if (Array.isArray(data)) return data.length;
-        if (typeof data[key] !== 'undefined') return data[key];
+        if (data.data && data.data[path]) return data.data[path].length;
         return 0;
       } catch {
         return 0;
@@ -388,15 +391,28 @@
       } catch {}
       return '<li>Belum ada aktivitas terbaru.</li>';
     }
+    // Helper fetch user count from GraphQL
+    async function fetchUserCountGraphQL() {
+      try {
+        const res = await fetch('/graphql', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: '{ getUsers { id } }' })
+        });
+        const data = await res.json();
+        if (data.data && data.data.getUsers) return data.data.getUsers.length;
+        return 0;
+      } catch {
+        return 0;
+      }
+    }
     async function renderDashboard() {
-      // Fetch all counts
-      const [userCount, inventoryCount, categoryCount, supplierCount, notificationCount] = await Promise.all([
-        fetchCount('/user', 'count'),
-        fetchCount('/inventory', 'count'),
-        fetchCount('/category', 'count'),
-        fetchCount('/supplier', 'count'),
-        fetchCount('/notification', 'count'),
-      ]);
+      // Fetch user count dari /graphql, yang lain dari proxy GraphQL masing-masing
+      const userCount = await fetchUserCountGraphQL();
+      const inventoryCount = await fetchCountGraphQL('/inventory-graphql', '{ getItems { id } }', 'getItems');
+      const categoryCount = await fetchCountGraphQL('/category-graphql', '{ getCategories { id } }', 'getCategories');
+      const supplierCount = await fetchCountGraphQL('/supplier-graphql', '{ getSuppliers { id } }', 'getSuppliers');
+      const notificationCount = await fetchCountGraphQL('/notification-graphql', '{ getNotifications { id } }', 'getNotifications');
       // Render stat cards
       document.getElementById('stats-cards').innerHTML = `
         <div class="stat-card">
