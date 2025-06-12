@@ -1,16 +1,490 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>InventoryHub Dashboard</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e0eafc 0%, #f7faff 100%);
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .sidebar {
+      min-height: 100vh;
+      width: 270px;
+      background: rgba(245, 248, 255, 0.97);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.13);
+      backdrop-filter: blur(14px);
+      border-top-right-radius: 2.2rem;
+      border-bottom-right-radius: 2.2rem;
+      padding: 1.7rem 1.1rem 1.7rem 1.3rem;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      animation: slideInLeft 1s cubic-bezier(.77,0,.18,1) 0s 1;
+      box-sizing: border-box;
+    }
+    @keyframes slideInLeft {
+      0% { transform: translateX(-100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    .sidebar .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #3578e5;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-shadow: 0 2px 8px rgba(44,62,80,0.08);
+      animation: fadeIn 1.2s 0.2s both;
+      width: 100%;
+      padding: 0.2rem 0.3rem 0.2rem 0.1rem;
+      box-sizing: border-box;
+      border-radius: 1.2rem;
+      background: none;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .sidebar .logo i {
+      font-size: 1.3rem;
+      color: #3578e5;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .sidebar-menu {
+      width: 100%;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .sidebar-menu li {
+      width: 100%;
+      list-style: none;
+      animation: fadeInUp 0.8s both;
+    }
+    .sidebar-menu li:nth-child(1) { animation-delay: 0.2s; }
+    .sidebar-menu li:nth-child(2) { animation-delay: 0.3s; }
+    .sidebar-menu li:nth-child(3) { animation-delay: 0.4s; }
+    .sidebar-menu li:nth-child(4) { animation-delay: 0.5s; }
+    .sidebar-menu li:nth-child(5) { animation-delay: 0.6s; }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #2d3a4b;
+      text-decoration: none;
+      border-radius: 1.1rem;
+      padding: 0.7rem 1rem;
+      box-shadow: 0 2px 12px rgba(44,62,80,0.06);
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s, color 0.18s;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(90deg, #e0eafc 0%, #f7faff 100%);
+      border: 1.2px solid #e3eafc;
+      min-width: 0;
+      min-height: 48px;
+      white-space: nowrap;
+    }
+    .sidebar-link span {
+      overflow: visible;
+      text-overflow: unset;
+      white-space: nowrap;
+      font-size: 0.98rem;
+      font-weight: 600;
+      flex: 1;
+    }
+    .sidebar-link i {
+      font-size: 1.15rem;
+      color: #3578e5;
+      min-width: 22px;
+      text-align: center;
+      transition: color 0.18s;
+    }
+    .sidebar-link:hover, .sidebar-link:focus {
+      background: linear-gradient(90deg, #dbeafe 0%, #e0eafc 100%);
+      color: #1a2636;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(44,62,80,0.10);
+      text-decoration: none;
+      border-color: #b6d0f7;
+    }
+    .sidebar-link:hover i {
+      color: #1a2636;
+    }
+    .main-content {
+      margin-left: 270px;
+      padding: 2.2rem 1.2rem 2.2rem 1.2rem;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      animation: fadeIn 1.2s 0.5s both;
+      background: none;
+      position: relative;
+    }
+    .dashboard-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+      opacity: 0.18;
+      filter: blur(2.5px) brightness(1.08);
+      border-radius: 2.2rem;
+      pointer-events: none;
+    }
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+      align-items: stretch;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 1100px;
+      z-index: 1;
+      position: relative;
+    }
+    .stats-cards {
+      display: flex;
+      flex-direction: row;
+      gap: 1.2rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .stat-card, .chart-box, .info-box {
+      background: rgba(255,255,255,0.35);
+      border-radius: 1.1rem;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.2px solid rgba(255,255,255,0.25);
+      padding: 0.9rem 1.1rem;
+      min-width: 120px;
+      flex: 1 1 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      animation: fadeInUp 0.8s both;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-card .stat-title {
+      font-size: 0.93rem;
+      color: #3578e5;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .stat-card .stat-value {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #2d3a4b;
+      margin-bottom: 0.1rem;
+    }
+    .stat-card .stat-desc {
+      font-size: 0.89rem;
+      color: #6c7a89;
+    }
+    .stat-card .stat-icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.1rem;
+      color: #3578e5;
+      opacity: 0.8;
+    }
+    .chart-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #3578e5;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .info-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+      z-index: 1;
+      position: relative;
+    }
+    .info-box {
+      flex: 1 1 220px;
+      min-width: 180px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .info-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #3578e5;
+      margin-bottom: 0.2rem;
+    }
+    .info-list {
+      font-size: 0.93rem;
+      color: #2d3a4b;
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+    .info-tip {
+      font-size: 0.89rem;
+      color: #6c7a89;
+      margin: 0;
+    }
+    @media (max-width: 1100px) {
+      .dashboard-container {
+        max-width: 98vw;
+      }
+      .stats-cards {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .charts-section {
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      .info-section {
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+    }
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 100vw;
+        min-height: 70px;
+        height: 70px;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 0 0 2rem 2rem;
+        padding: 0.7rem 0.5rem 0.7rem 0.7rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+      }
+      .sidebar .logo {
+        font-size: 0.9rem;
+        margin-bottom: 0;
+        margin-right: 0.7rem;
+        padding: 0.1rem 0.1rem;
+      }
+      .sidebar-menu {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0;
+        gap: 0.3rem;
+        width: auto;
+      }
+      .sidebar-menu li {
+        margin-bottom: 0;
+      }
+      .main-content {
+        margin-left: 0;
+        margin-top: 80px;
+        padding: 0.7rem 0.3rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>📊 Dashboard InventoryHub</h1>
-  <ul>
-    <li><a href="/user">Kelola User 👤</a></li>
-    <li><a href="/inventory">Kelola Inventaris 📦</a></li>
-    <li><a href="/category">Kelola Kategori 🗂️</a></li>
-    <li><a href="/supplier">Kelola Supplier 🚚</a></li>
-    <li><a href="/notification">Kelola Notifikasi 🔔</a></li>
-  </ul>
+  <nav class="sidebar">
+    <div class="logo">
+      <i class="bi bi-bar-chart-fill"></i> <span>InventoryHub</span>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a class="sidebar-link" href="/user"><i class="bi bi-person-lines-fill"></i> <span>Kelola User</span></a></li>
+      <li><a class="sidebar-link" href="/inventory"><i class="bi bi-box-seam"></i> <span>Kelola Inventaris</span></a></li>
+      <li><a class="sidebar-link" href="/category"><i class="bi bi-folder2-open"></i> <span>Kelola Kategori</span></a></li>
+      <li><a class="sidebar-link" href="/supplier"><i class="bi bi-truck"></i> <span>Kelola Supplier</span></a></li>
+      <li><a class="sidebar-link" href="/notification"><i class="bi bi-bell-fill"></i> <span>Kelola Notifikasi</span></a></li>
+    </ul>
+  </nav>
+  <main class="main-content">
+    <div class="dashboard-bg"></div>
+    <div class="dashboard-container">
+      <div class="stats-cards" id="stats-cards">
+        <!-- Statistik akan diisi oleh JS -->
+      </div>
+      <div class="charts-section">
+        <div class="chart-box">
+          <div class="chart-title">Statistik User & Inventaris</div>
+          <canvas id="barChart" width="220" height="120"></canvas>
+        </div>
+        <div class="chart-box">
+          <div class="chart-title">Distribusi Kategori</div>
+          <canvas id="pieChart" width="220" height="120"></canvas>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-box">
+          <div class="info-title"><i class="bi bi-lightbulb"></i> Tips Penggunaan</div>
+          <ul class="info-list">
+            <li>Gunakan menu di sidebar untuk mengelola data.</li>
+            <li>Perbarui data secara berkala untuk hasil laporan yang akurat.</li>
+            <li>Manfaatkan fitur notifikasi untuk update penting.</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <div class="info-title"><i class="bi bi-clock-history"></i> Aktivitas Terakhir</div>
+          <ul class="info-list" id="recent-activity">
+            <li>Memuat aktivitas...</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <div class="info-title"><i class="bi bi-info-circle"></i> Quick Info</div>
+          <div class="info-tip" id="quick-info">Dashboard InventoryHub siap membantu Anda!</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    // Helper fetch count from service
+    async function fetchCount(url, key) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (Array.isArray(data)) return data.length;
+        if (typeof data[key] !== 'undefined') return data[key];
+        return 0;
+      } catch {
+        return 0;
+      }
+    }
+    // Helper fetch recent activity (dummy if not available)
+    async function fetchRecentActivity() {
+      try {
+        const res = await fetch('/notification');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          return data.slice(0, 5).map(n => `<li><b>${n.title || 'Notifikasi'}</b> - ${n.created_at || ''}</li>`).join('');
+        }
+      } catch {}
+      return '<li>Belum ada aktivitas terbaru.</li>';
+    }
+    async function renderDashboard() {
+      // Fetch all counts
+      const [userCount, inventoryCount, categoryCount, supplierCount, notificationCount] = await Promise.all([
+        fetchCount('/user', 'count'),
+        fetchCount('/inventory', 'count'),
+        fetchCount('/category', 'count'),
+        fetchCount('/supplier', 'count'),
+        fetchCount('/notification', 'count'),
+      ]);
+      // Render stat cards
+      document.getElementById('stats-cards').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+          <div class="stat-title">Total User</div>
+          <div class="stat-value">${userCount}</div>
+          <div class="stat-desc">${userCount > 0 ? 'Aktif' : 'Belum ada data'}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-box-seam"></i></div>
+          <div class="stat-title">Inventaris</div>
+          <div class="stat-value">${inventoryCount}</div>
+          <div class="stat-desc">${inventoryCount > 0 ? 'Tersedia' : 'Belum ada data'}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-folder2-open"></i></div>
+          <div class="stat-title">Kategori</div>
+          <div class="stat-value">${categoryCount}</div>
+          <div class="stat-desc">${categoryCount > 0 ? 'Tersedia' : 'Belum ada data'}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-truck"></i></div>
+          <div class="stat-title">Supplier</div>
+          <div class="stat-value">${supplierCount}</div>
+          <div class="stat-desc">${supplierCount > 0 ? 'Tersedia' : 'Belum ada data'}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-bell-fill"></i></div>
+          <div class="stat-title">Notifikasi</div>
+          <div class="stat-value">${notificationCount}</div>
+          <div class="stat-desc">${notificationCount > 0 ? 'Ada notifikasi' : 'Tidak ada notifikasi'}</div>
+        </div>
+      `;
+      // Render chart data
+      const barCtx = document.getElementById('barChart').getContext('2d');
+      new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: ['User', 'Inventaris', 'Kategori', 'Supplier', 'Notifikasi'],
+          datasets: [{
+            label: 'Jumlah',
+            data: [userCount, inventoryCount, categoryCount, supplierCount, notificationCount],
+            backgroundColor: [
+              '#3578e5', '#a1c4fd', '#cfdef3', '#6dd5ed', '#f7b267'
+            ],
+            borderRadius: 8,
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+          }
+        }
+      });
+      // Pie chart kategori (dummy jika belum ada detail)
+      const pieCtx = document.getElementById('pieChart').getContext('2d');
+      let pieData = [categoryCount];
+      let pieLabels = ['Kategori'];
+      try {
+        const res = await fetch('/category');
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          pieLabels = data.map(c => c.name || 'Kategori');
+          pieData = data.map(() => 1);
+        }
+      } catch {}
+      new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+          labels: pieLabels,
+          datasets: [{
+            data: pieData,
+            backgroundColor: [
+              '#3578e5', '#a1c4fd', '#cfdef3', '#6dd5ed', '#f7b267', '#f67280', '#355c7d'
+            ],
+          }]
+        },
+        options: {
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+      // Recent activity
+      document.getElementById('recent-activity').innerHTML = await fetchRecentActivity();
+      // Quick info
+      document.getElementById('quick-info').innerText = `Terdapat ${userCount} user, ${inventoryCount} inventaris, ${categoryCount} kategori, ${supplierCount} supplier, dan ${notificationCount} notifikasi.`;
+    }
+    renderDashboard();
+  </script>
 </body>
 </html>
