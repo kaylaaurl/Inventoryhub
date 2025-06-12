@@ -1,10 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from config import DB_CONFIG
-from sqlalchemy import create_engine
-
-Base = declarative_base()
+from config import Base, SessionLocal
 
 class Supplier(Base):
     __tablename__ = "suppliers"
@@ -16,7 +11,4 @@ class Supplier(Base):
     email = Column(String(100))
     address = Column(String(200))
 
-# DB Engine setup
-url = f"mysql+mysqlconnector://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}"
-engine = create_engine(url)
-SessionLocal = sessionmaker(bind=engine)
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kelola User</title>
+</head>
+<body>
+  <h1>👤 Kelola User</h1>
+
+  <h2>➕ Tambah / Update User</h2>
+  <form method="POST">
+    <input type="hidden" name="action" value="add">
+    <label>Username: <input name="username" required></label><br>
+    <label>Password: <input name="password" required></label><br>
+    <label>Role: <input name="role" required></label><br>
+    <button type="submit">Tambah</button>
+  </form>
+
+  <h2>📋 Daftar User</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Aksi</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <!-- Form Delete -->
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="id" value="{{ user.id }}">
+          <button type="submit">Hapus</button>
+        </form>
+
+        <!-- Form Update -->
+        <form method="POST" style="display:inline; margin-left: 10px;">
+          <input type="hidden" name="action" value="update">
+          <input type="hidden" name="id" value="{{ user.id }}">
+          <input name="username" placeholder="Username baru">
+          <input name="password" placeholder="Password baru">
+          <input name="role" placeholder="Role baru">
+          <button type="submit">Update</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+</body>
+</html>

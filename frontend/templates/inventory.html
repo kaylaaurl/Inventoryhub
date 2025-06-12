@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kelola Inventaris</title>
+</head>
+<body>
+  <h1>📦 Kelola Inventaris</h1>
+
+  <h2>➕ Tambah / Update Barang</h2>
+  <form method="POST">
+    <input type="hidden" name="action" value="add">
+    <label>Nama: <input name="name" required></label><br>
+    <label>Kategori: <input name="category" required></label><br>
+    <label>Jumlah: <input name="quantity" type="number" required></label><br>
+    <label>Lokasi: <input name="location"></label><br>
+    <label>Status:
+      <select name="status">
+        <option value="available">Available</option>
+        <option value="damaged">Damaged</option>
+        <option value="out_of_stock">Out of Stock</option>
+      </select>
+    </label><br>
+    <button type="submit">Tambah</button>
+  </form>
+
+  <h2>📋 Daftar Inventaris</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th><th>Nama</th><th>Kategori</th><th>Jumlah</th><th>Lokasi</th><th>Status</th><th>Aksi</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.category }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.location }}</td>
+      <td>{{ item.status }}</td>
+      <td>
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="id" value="{{ item.id }}">
+          <button type="submit">Hapus</button>
+        </form>
+
+        <form method="POST" style="display:inline; margin-left: 10px;">
+          <input type="hidden" name="action" value="update">
+          <input type="hidden" name="id" value="{{ item.id }}">
+          <input name="name" placeholder="Nama baru">
+          <input name="category" placeholder="Kategori baru">
+          <input name="quantity" placeholder="Jumlah baru" type="number">
+          <input name="location" placeholder="Lokasi baru">
+          <select name="status">
+            <option value="">-- Ubah Status --</option>
+            <option value="available">Available</option>
+            <option value="damaged">Damaged</option>
+            <option value="out_of_stock">Out of Stock</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+</body>
+</html>

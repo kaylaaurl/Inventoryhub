@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kelola Notifikasi</title>
+</head>
+<body>
+  <h1>🔔 Kelola Notifikasi</h1>
+
+  <h2>➕ Tambah Notifikasi</h2>
+  <form method="POST">
+    <input type="hidden" name="action" value="add">
+    <label>User ID: <input name="user_id" type="number" required></label><br>
+    <label>Item ID: <input name="item_id" type="number" required></label><br>
+    <label>Pesan: <input name="message" required></label><br>
+    <label>Status:
+      <select name="status">
+        <option value="pending">pending</option>
+        <option value="sent">sent</option>
+        <option value="read">read</option>
+      </select>
+    </label><br>
+    <button type="submit">Tambah</button>
+  </form>
+
+  <h2>📋 Daftar Notifikasi</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th><th>User ID</th><th>Item ID</th><th>Pesan</th><th>Status</th><th>Aksi</th>
+    </tr>
+    {% for notif in notifications %}
+    <tr>
+      <td>{{ notif.id }}</td>
+      <td>{{ notif.user_id }}</td>
+      <td>{{ notif.item_id }}</td>
+      <td>{{ notif.message }}</td>
+      <td>{{ notif.status }}</td>
+      <td>
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="id" value="{{ notif.id }}">
+          <button type="submit">Hapus</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+</body>
+</html>

@@ -1,6 +1,7 @@
 from ariadne import QueryType, MutationType
-from models import Category, SessionLocal
+from models import Category
 from sqlalchemy.exc import IntegrityError
+from config import SessionLocal
 
 query = QueryType()
 mutation = MutationType()

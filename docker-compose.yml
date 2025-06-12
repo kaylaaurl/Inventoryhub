@@ -1,89 +1,137 @@
-version: "3.8"
+version: "3.9"
 
 services:
+  user-db:
+    image: mysql:8.0
+    container_name: user-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_db
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   user-service:
-    build: ./user-service
+    build:
+      context: ./user-service
+    container_name: user-service
+    depends_on:
+      user-db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://root:root@user-db:3306/user_db
     ports:
       - "5001:5001"
-    depends_on:
-      - user-db
-
-  user-db:
-    image: mysql:8
-    restart: always
-    environment:
-      MYSQL_DATABASE: user_service_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-    volumes:
-      - user-db-data:/var/lib/mysql
-
-  inventory-service:
-    build: ./inventory-service
-    ports:
-      - "5002:5002"
-    depends_on:
-      - inventory-db
+    restart: on-failure
 
   inventory-db:
-    image: mysql:8
-    restart: always
+    image: mysql:8.0
+    container_name: inventory-db
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: inventory_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-    volumes:
-      - inventory-db-data:/var/lib/mysql
-
-  category-service:
-    build: ./category-service
     ports:
-      - "5003:5003"
-    depends_on:
-      - category-db
+      - "3308:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  category-db:
-    image: mysql:8
-    restart: always
+  inventory-service:
+    build:
+      context: ./inventory-service
+    container_name: inventory-service
+    depends_on:
+      inventory-db:
+        condition: service_healthy
     environment:
-      MYSQL_DATABASE: category_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-    volumes:
-      - category-db-data:/var/lib/mysql
-
-  supplier-service:
-    build: ./supplier-service
+      - DATABASE_URL=mysql+mysqlconnector://root:root@inventory-db:3306/inventory_db
     ports:
-      - "5004:5004"
-    depends_on:
-      - supplier-db
+      - "5002:5002"
+    restart: on-failure
 
   supplier-db:
-    image: mysql:8
-    restart: always
+    image: mysql:8.0
+    container_name: supplier-db
     environment:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: supplier_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-    volumes:
-      - supplier-db-data:/var/lib/mysql
+    ports:
+      - "3309:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  notification-service:
-    build: ./notification-service
+  supplier-service:
+    build:
+      context: ./supplier-service
+    container_name: supplier-service
+    depends_on:
+      supplier-db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://root:root@supplier-db:3306/supplier_db
+    ports:
+      - "5010:5003"
+    restart: on-failure
+
+  category-db:
+    image: mysql:8.0
+    container_name: category-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: category_db
+    ports:
+      - "3310:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  category-service:
+    build:
+      context: ./category-service
+    container_name: category-service
+    depends_on:
+      category-db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://root:root@category-db:3306/category_db
+    ports:
+      - "5004:5004"
+    restart: on-failure
+
+  notifications-db:
+    image: mysql:8.0
+    container_name: notifications-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notifications_db
+    ports:
+      - "3311:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  notifications-service:
+    build:
+      context: ./notifications-service
+    container_name: notifications-service
+    depends_on:
+      notifications-db:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://root:root@notifications-db:3306/notifications_db
     ports:
       - "5005:5005"
-    depends_on:
-      - notification-db
-
-  notification-db:
-    image: mysql:8
-    restart: always
-    environment:
-      MYSQL_DATABASE: notification_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
-    volumes:
-      - notification-db-data:/var/lib/mysql
-
-volumes:
-  user-db-data:
-  inventory-db-data:
-  category-db-data:
-  supplier-db-data:
-  notification-db-data:
+    restart: on-failure

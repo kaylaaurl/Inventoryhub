@@ -1,4 +1,5 @@
-from models import User, SessionLocal
+from models import User
+from config import SessionLocal
 from ariadne import QueryType, MutationType
 from sqlalchemy.exc import IntegrityError
 

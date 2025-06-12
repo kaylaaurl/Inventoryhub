@@ -1,5 +1,6 @@
 from ariadne import QueryType, MutationType
-from models import Supplier, SessionLocal
+from models import Supplier
+from config import SessionLocal
 
 query = QueryType()
 mutation = MutationType()

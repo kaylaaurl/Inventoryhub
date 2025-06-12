@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kelola Kategori</title>
+</head>
+<body>
+  <h1>🗂️ Kelola Kategori</h1>
+
+  <h2>➕ Tambah / Update Kategori</h2>
+  <form method="POST">
+    <input type="hidden" name="action" value="add">
+    <label>Nama: <input name="name" required></label><br>
+    <label>Deskripsi: <input name="description"></label><br>
+    <button type="submit">Tambah</button>
+  </form>
+
+  <h2>📋 Daftar Kategori</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th><th>Nama</th><th>Deskripsi</th><th>Aksi</th>
+    </tr>
+    {% for cat in categories %}
+    <tr>
+      <td>{{ cat.id }}</td>
+      <td>{{ cat.name }}</td>
+      <td>{{ cat.description }}</td>
+      <td>
+        <form method="POST" style="display:inline;">
+          <input type="hidden" name="action" value="delete">
+          <input type="hidden" name="id" value="{{ cat.id }}">
+          <button type="submit">Hapus</button>
+        </form>
+
+        <form method="POST" style="display:inline; margin-left: 10px;">
+          <input type="hidden" name="action" value="update">
+          <input type="hidden" name="id" value="{{ cat.id }}">
+          <input name="name" placeholder="Nama baru">
+          <input name="description" placeholder="Deskripsi baru">
+          <button type="submit">Update</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+</body>
+</html>
