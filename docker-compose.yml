@@ -135,3 +135,17 @@ services:
     ports:
       - "5005:5005"
     restart: on-failure
+
+  frontend: 
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - user-service
+      - inventory-service
+      - category-service
+      - supplier-service
+      - notifications-service
+
