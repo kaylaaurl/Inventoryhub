@@ -4,11 +4,11 @@ import requests
 app = Flask(__name__)
 
 GRAPHQL_ENDPOINTS = {
-    "user": "http://localhost:5001/graphql",
-    "inventory": "http://localhost:5002/graphql",
-    "category": "http://localhost:5004/graphql",
-    "supplier": "http://localhost:5010/graphql",
-    "notification": "http://localhost:5005/graphql",
+    "user" : "http://user-service:5001/graphql",
+    "supplier" : "http://supplier-service:5003/graphql",
+    "inventory" : "http://inventory-service:5002/graphql",
+    "notification" : "http://notifications-service:5005/graphql",
+    "category" : "http://category-service:5004/graphql",
 }
 
 @app.route("/")
@@ -330,4 +330,4 @@ def notification():
     return render_template("notification.html", notifications=notifications)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(debug=True, host="0.0.0.0", port=8000)
