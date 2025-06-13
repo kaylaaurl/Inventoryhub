@@ -15,6 +15,11 @@ GRAPHQL_ENDPOINTS = {
 def index():
     return render_template("index.html")
 
+@app.route("/")
+def dashboard():
+    return render_template("index.html", current_page="dashboard")
+
+
 # ------------------- USER SERVICE -------------------
 @app.route("/user", methods=["GET", "POST"])
 def user():

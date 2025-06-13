@@ -12,13 +12,15 @@
     <aside class="w-64 bg-white/70 backdrop-blur-md shadow-lg rounded-r-3xl p-6 flex flex-col space-y-4">
       <h1 class="text-2xl font-bold text-blue-600 mb-4">📊 InventoryHub</h1>
       <nav class="space-y-2">
-        <a href="/user" class="flex items-center px-4 py-2 bg-blue-100 rounded-lg text-blue-700 font-medium">👤 Kelola User</a>
-        <a href="/inventory" class="flex items-center px-4 py-2 hover:bg-blue-100 rounded-lg text-blue-700">📦 Kelola Inventaris</a>
-        <a href="/category" class="flex items-center px-4 py-2 hover:bg-blue-100 rounded-lg text-blue-700">🗂️ Kelola Kategori</a>
-        <a href="/supplier" class="flex items-center px-4 py-2 hover:bg-blue-100 rounded-lg text-blue-700">🚚 Kelola Supplier</a>
-        <a href="/notification" class="flex items-center px-4 py-2 hover:bg-blue-100 rounded-lg text-blue-700">🔔 Kelola Notifikasi</a>
+        <a href="/" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'dashboard' else 'hover:bg-blue-100' }}">📈 Dashboard</a>
+        <a href="/user" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'user' else 'hover:bg-blue-100' }}">👤 Kelola User</a>
+        <a href="/inventory" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'inventory' else 'hover:bg-blue-100' }}">📦 Kelola Inventaris</a>
+        <a href="/category" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'category' else 'hover:bg-blue-100' }}">🗂️ Kelola Kategori</a>
+        <a href="/supplier" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'supplier' else 'hover:bg-blue-100' }}">🚚 Kelola Supplier</a>
+        <a href="/notification" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'notification' else 'hover:bg-blue-100' }}">🔔 Kelola Notifikasi</a>
       </nav>
     </aside>
+
     <main class="flex-1 p-8 space-y-6">
       <div class="grid grid-cols-5 gap-4" id="stats-cards"></div>
       <div class="bg-white rounded-xl shadow-md p-6">
