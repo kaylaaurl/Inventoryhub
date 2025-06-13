@@ -19,7 +19,7 @@
     }
     
     .supplier-glow {
-      box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
     }
     
     .hover-lift {
@@ -37,7 +37,7 @@
     
     .form-input:focus {
       transform: scale(1.02);
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
     
     .animate-pulse-subtle {
@@ -74,7 +74,7 @@
     }
     
     .table-row:hover {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(134, 239, 172, 0.1));
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 221, 0.1));
       transform: scale(1.005);
     }
     
@@ -106,22 +106,22 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 min-h-screen">
+<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 min-h-screen">
   <!-- Background Effects -->
   <div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
-    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
   </div>
 
   <div class="flex relative z-10">
     <!-- Sidebar -->
     <aside class="w-72 glass-effect m-4 rounded-3xl p-6 flex flex-col space-y-4 shadow-2xl">
       <div class="text-center mb-6">
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
           📊 InventoryHub
         </h1>
-        <div class="w-16 h-1 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mx-auto"></div>
+        <div class="w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mx-auto"></div>
       </div>
       
       <nav class="space-y-3">
@@ -141,7 +141,7 @@
           <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🗂️</span>
           <span class="font-medium">Kelola Kategori</span>
         </a>
-        <a href="/supplier" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-emerald-500 to-teal-500 supplier-glow font-semibold">
+        <a href="/supplier" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-blue-500 to-indigo-500 supplier-glow font-semibold">
           <span class="text-xl mr-3 animate-pulse">🚚</span>
           <span>Kelola Supplier</span>
         </a>
@@ -161,7 +161,7 @@
             <h1 class="text-4xl font-bold text-white mb-2">🚚 Kelola Supplier</h1>
             <p class="text-white/70 text-lg">Kelola data supplier dan partner bisnis Anda</p>
           </div>
-          <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl floating-element">
+          <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center text-3xl floating-element">
             🚚
           </div>
         </div>
@@ -170,7 +170,7 @@
       <!-- Add Supplier Form -->
       <div class="glass-effect rounded-2xl p-8 mb-8 hover-lift">
         <div class="flex items-center mb-6">
-          <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
             ➕
           </div>
           <h2 class="text-2xl font-bold text-white">Tambah / Update Supplier</h2>
@@ -184,7 +184,7 @@
             <input 
               name="name" 
               required 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
               placeholder="Masukkan nama supplier"
             >
           </div>
@@ -193,7 +193,7 @@
             <label class="block text-sm font-semibold text-white/90">Contact Person</label>
             <input 
               name="contact_person" 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
               placeholder="Nama contact person"
             >
           </div>
@@ -202,7 +202,7 @@
             <label class="block text-sm font-semibold text-white/90">Telepon</label>
             <input 
               name="phone" 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
               placeholder="Nomor telepon"
             >
           </div>
@@ -212,7 +212,7 @@
             <input 
               name="email" 
               type="email"
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
               placeholder="Email supplier"
             >
           </div>
@@ -221,7 +221,7 @@
             <label class="block text-sm font-semibold text-white/90">Alamat</label>
             <input 
               name="address" 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
               placeholder="Alamat lengkap supplier"
             >
           </div>
@@ -229,7 +229,7 @@
           <div class="md:col-span-2">
             <button 
               type="submit" 
-              class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+              class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               <span class="flex items-center justify-center">
                 <span class="mr-2">✨</span>
@@ -244,7 +244,7 @@
       <div class="glass-effect rounded-2xl p-8 hover-lift">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center">
-            <div class="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
               📋
             </div>
             <h2 class="text-2xl font-bold text-white">Daftar Supplier</h2>
@@ -272,13 +272,13 @@
                 {% for sup in suppliers %}
                 <tr class="table-row" id="row-{{ sup.id }}">
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                    <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                       {{ sup.id }}
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
-                      <div class="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                      <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
                         {{ sup.name[0] if sup.name else 'S' }}
                       </div>
                       <div>
@@ -338,31 +338,31 @@
                               name="name" 
                               placeholder="Nama baru" 
                               value="{{ sup.name }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
                             >
                             <input 
                               name="contact_person" 
                               placeholder="CP baru" 
                               value="{{ sup.contact_person or '' }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
                             >
                             <input 
                               name="phone" 
                               placeholder="Telepon baru" 
                               value="{{ sup.phone or '' }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
                             >
                             <input 
                               name="email" 
                               placeholder="Email baru" 
                               value="{{ sup.email or '' }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
                             >
                             <input 
                               name="address" 
                               placeholder="Alamat baru" 
                               value="{{ sup.address or '' }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400 sm:col-span-2"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400 sm:col-span-2"
                             >
                           </div>
                           
@@ -376,7 +376,7 @@
                             </button>
                             <button 
                               type="submit" 
-                              class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 text-sm font-medium"
+                              class="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 text-sm font-medium"
                             >
                               Update
                             </button>
