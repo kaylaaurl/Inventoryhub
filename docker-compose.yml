@@ -1,166 +1,142 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  user-db:
-    image: mysql:8.0
-    container_name: user-db
+  # ✅ Custom MySQL with init.sql & my.conf
+  database:
+    build:
+      context: ./database
+    container_name: inventoryhub_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: user_db
     ports:
-      - "3307:3306"
+      - "3315:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - inventoryhub_network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 20s
 
+  # ✅ User Service
   user-service:
     build:
       context: ./user-service
-    container_name: user-service
-    depends_on:
-      user-db:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=mysql+mysqlconnector://root:root@user-db:3306/user_db
+    container_name: user_service
     ports:
       - "5001:5001"
-    restart: on-failure
-
-  inventory-db:
-    image: mysql:8.0
-    container_name: inventory-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: inventory_db
-    ports:
-      - "3308:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=user_service
+      - GRAPHQL_PORT=5001
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - inventoryhub_network
 
+  # ✅ Inventory Service
   inventory-service:
     build:
       context: ./inventory-service
-    container_name: inventory-service
-    depends_on:
-      inventory-db:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=mysql+mysqlconnector://root:root@inventory-db:3306/inventory_db
+    container_name: inventory_service
     ports:
       - "5002:5002"
-    restart: on-failure
-
-  supplier-db:
-    image: mysql:8.0
-    container_name: supplier-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: supplier_db
-    ports:
-      - "3309:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=inventory_service
+      - GRAPHQL_PORT=5002
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - inventoryhub_network
 
+  # ✅ Supplier Service
   supplier-service:
     build:
       context: ./supplier-service
-    container_name: supplier-service
+    container_name: supplier_service
+    ports:
+      - "5003:5003"
+    environment:
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=supplier_service
+      - GRAPHQL_PORT=5003
     depends_on:
-      supplier-db:
+      database:
         condition: service_healthy
-    environment:
-      - DATABASE_URL=mysql+mysqlconnector://root:root@supplier-db:3306/supplier_db
-    ports:
-      - "5010:5003"
-    restart: on-failure
+    networks:
+      - inventoryhub_network
 
-  category-db:
-    image: mysql:8.0
-    container_name: category-db
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: category_db
-    ports:
-      - "3310:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
+  # ✅ Category Service
   category-service:
     build:
       context: ./category-service
-    container_name: category-service
-    depends_on:
-      category-db:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=mysql+mysqlconnector://root:root@category-db:3306/category_db
+    container_name: category_service
     ports:
       - "5004:5004"
-    restart: on-failure
-
-  notifications-db:
-    image: mysql:8.0
-    container_name: notifications-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: notifications_db
-    ports:
-      - "3311:3306"
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=category_service
+      - GRAPHQL_PORT=5004
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - inventoryhub_network
 
+  # ✅ Notifications Service
   notifications-service:
     build:
       context: ./notifications-service
-    container_name: notifications-service
-    depends_on:
-      notifications-db:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=mysql+mysqlconnector://root:root@notifications-db:3306/notifications_db
+    container_name: notifications_service
     ports:
       - "5005:5005"
-    restart: on-failure
+    environment:
+      - DB_HOST=database
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=notifications_service
+      - GRAPHQL_PORT=5005
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - inventoryhub_network
 
-  frontend: 
-    build:
-      context: ./frontend
-    container_name: frontend
+  # ✅ Frontend with NGINX
+  frontend:
+    image: nginx:alpine
+    container_name: inventoryhub_frontend
     ports:
-      - "8000:8000"
+      - "8000:80"
+    volumes:
+      - ./frontend/views:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - user-service
       - inventory-service
       - category-service
       - supplier-service
       - notifications-service
+    networks:
+      - inventoryhub_network
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    ports:
-      - "8080:80"
-    environment:
-      PMA_ARBITRARY: 1
-      UPLOAD_LIMIT: 300M
-      COOKIE_SECURE: false
-    depends_on:
-      - user-db
-      - inventory-db
-      - category-db
-      - supplier-db
-      - notifications-db
+volumes:
+  mysql_data:
+
+networks:
+  inventoryhub_network:
+    driver: bridge
