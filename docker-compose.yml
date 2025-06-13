@@ -1,10 +1,9 @@
 version: '3.8'
 
 services:
-  # ✅ Custom MySQL with init.sql & my.conf
+  # Shared MySQL Database
   database:
-    build:
-      context: ./database
+    image: mysql:8.0
     container_name: inventoryhub_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -12,6 +11,7 @@ services:
       - "3315:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./database/sql-init:/docker-entrypoint-initdb.d
     networks:
       - inventoryhub_network
     healthcheck:
@@ -21,10 +21,9 @@ services:
       retries: 5
       start_period: 20s
 
-  # ✅ User Service
+  # USER SERVICE
   user-service:
-    build:
-      context: ./user-service
+    image: mchaz5/user-service:latest
     container_name: user_service
     ports:
       - "5001:5001"
@@ -32,7 +31,7 @@ services:
       - DB_HOST=database
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=user_service
+      - DB_NAME=user_db
       - GRAPHQL_PORT=5001
     depends_on:
       database:
@@ -40,10 +39,9 @@ services:
     networks:
       - inventoryhub_network
 
-  # ✅ Inventory Service
+  # INVENTORY SERVICE
   inventory-service:
-    build:
-      context: ./inventory-service
+    image: mchaz5/inventory-service:latest
     container_name: inventory_service
     ports:
       - "5002:5002"
@@ -51,7 +49,7 @@ services:
       - DB_HOST=database
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=inventory_service
+      - DB_NAME=inventory_db
       - GRAPHQL_PORT=5002
     depends_on:
       database:
@@ -59,10 +57,9 @@ services:
     networks:
       - inventoryhub_network
 
-  # ✅ Supplier Service
+  # SUPPLIER SERVICE
   supplier-service:
-    build:
-      context: ./supplier-service
+    image: mchaz5/supplier-service:latest
     container_name: supplier_service
     ports:
       - "5003:5003"
@@ -70,7 +67,7 @@ services:
       - DB_HOST=database
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=supplier_service
+      - DB_NAME=supplier_db
       - GRAPHQL_PORT=5003
     depends_on:
       database:
@@ -78,10 +75,9 @@ services:
     networks:
       - inventoryhub_network
 
-  # ✅ Category Service
+  # CATEGORY SERVICE
   category-service:
-    build:
-      context: ./category-service
+    image: mchaz5/category-service:latest
     container_name: category_service
     ports:
       - "5004:5004"
@@ -89,7 +85,7 @@ services:
       - DB_HOST=database
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=category_service
+      - DB_NAME=category_db
       - GRAPHQL_PORT=5004
     depends_on:
       database:
@@ -97,10 +93,9 @@ services:
     networks:
       - inventoryhub_network
 
-  # ✅ Notifications Service
+  # NOTIFICATIONS SERVICE
   notifications-service:
-    build:
-      context: ./notifications-service
+    image: mchaz5/notifications-service:latest
     container_name: notifications_service
     ports:
       - "5005:5005"
@@ -108,7 +103,7 @@ services:
       - DB_HOST=database
       - DB_USER=root
       - DB_PASSWORD=root
-      - DB_NAME=notifications_service
+      - DB_NAME=notifications_db
       - GRAPHQL_PORT=5005
     depends_on:
       database:
@@ -116,7 +111,7 @@ services:
     networks:
       - inventoryhub_network
 
-  # ✅ Frontend with NGINX
+  # FRONTEND
   frontend:
     image: nginx:alpine
     container_name: inventoryhub_frontend
