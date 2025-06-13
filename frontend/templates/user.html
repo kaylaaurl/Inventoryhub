@@ -18,9 +18,9 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
-    .user-glow {
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-    }
+         .user-glow {
+       box-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
+     }
     
     .hover-lift {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -35,10 +35,10 @@
       transition: all 0.3s ease;
     }
     
-    .form-input:focus {
-      transform: scale(1.02);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
+           .form-input:focus {
+         transform: scale(1.02);
+         box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+       }
     
     .animate-pulse-subtle {
       animation: pulse-subtle 2s infinite;
@@ -73,10 +73,10 @@
       transition: all 0.3s ease;
     }
     
-    .table-row:hover {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.1));
-      transform: scale(1.005);
-    }
+           .table-row:hover {
+         background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(168, 85, 247, 0.1));
+         transform: scale(1.005);
+       }
     
     .update-form {
       opacity: 0;
@@ -106,22 +106,22 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 min-h-screen">
-  <!-- Background Effects -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
-    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
-  </div>
+ <body class="bg-gradient-to-br from-purple-900 via-violet-900 to-indigo-900 min-h-screen">
+   <!-- Background Effects -->
+   <div class="fixed inset-0 overflow-hidden pointer-events-none">
+     <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
+     <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-violet-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
+     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
+   </div>
 
   <div class="flex relative z-10">
     <!-- Sidebar -->
     <aside class="w-72 glass-effect m-4 rounded-3xl p-6 flex flex-col space-y-4 shadow-2xl">
       <div class="text-center mb-6">
-        <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
-          👥 InventoryHub
-        </h1>
-        <div class="w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mx-auto"></div>
+                 <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent mb-2">
+           📊 InventoryHub
+         </h1>
+         <div class="w-16 h-1 bg-gradient-to-r from-purple-400 to-violet-400 rounded-full mx-auto"></div>
       </div>
       
       <nav class="space-y-3">
@@ -129,16 +129,16 @@
           <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📈</span>
           <span class="font-medium">Dashboard</span>
         </a>
-        <a href="/user" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-500 user-glow font-semibold">
-          <span class="text-xl mr-3 animate-pulse">👤</span>
-          <span>Kelola User</span>
-        </a>
+                 <a href="/user" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-purple-500 to-violet-500 user-glow font-semibold">
+           <span class="text-xl mr-3 animate-pulse">👤</span>
+           <span>Kelola User</span>
+         </a>
         <a href="/inventory" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
           <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📦</span>
           <span class="font-medium">Kelola Inventaris</span>
         </a>
         <a href="/category" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
-          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🗂</span>
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🗂️</span>
           <span class="font-medium">Kelola Kategori</span>
         </a>
         <a href="/supplier" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
@@ -161,16 +161,16 @@
             <h1 class="text-4xl font-bold text-white mb-2">👥 Kelola User</h1>
             <p class="text-white/70 text-lg">Kelola pengguna sistem dengan mudah dan aman</p>
           </div>
-          <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center text-3xl floating-element">
-            👥
-          </div>
+                     <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-violet-500 rounded-2xl flex items-center justify-center text-3xl floating-element">
+             👤
+           </div>
         </div>
       </div>
 
       <!-- Add User Form -->
       <div class="glass-effect rounded-2xl p-8 mb-8 hover-lift">
         <div class="flex items-center mb-6">
-          <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+                     <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-violet-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
             ➕
           </div>
           <h2 class="text-2xl font-bold text-white">Tambah / Update User</h2>
@@ -184,7 +184,7 @@
             <input 
               name="username" 
               required 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-purple-400 focus:bg-white/20"
               placeholder="Masukkan username"
             >
           </div>
@@ -194,7 +194,7 @@
             <input 
               name="password" 
               required 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-purple-400 focus:bg-white/20"
               placeholder="Masukkan password"
             >
           </div>
@@ -204,7 +204,7 @@
             <input 
               name="role" 
               required 
-              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-purple-400 focus:bg-white/20"
               placeholder="Masukkan role"
             >
           </div>
@@ -212,7 +212,7 @@
           <div class="md:col-span-3">
             <button 
               type="submit" 
-              class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                             class="w-full bg-gradient-to-r from-purple-500 to-violet-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-violet-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               <span class="flex items-center justify-center">
                 <span class="mr-2">✨</span>
@@ -227,7 +227,7 @@
       <div class="glass-effect rounded-2xl p-8 hover-lift">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center">
-            <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+                         <div class="w-10 h-10 bg-gradient-to-br from-violet-400 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
               📋
             </div>
             <h2 class="text-2xl font-bold text-white">Daftar User</h2>
@@ -252,13 +252,13 @@
                 {% for user in users %}
                 <tr class="table-row" id="row-{{ user.id }}">
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                                         <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-violet-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
                       {{ user.id }}
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="flex items-center">
-                      <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                                             <div class="w-10 h-10 bg-gradient-to-br from-violet-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
                         {{ user.username[0] if user.username else 'U' }}
                       </div>
                       <div>
@@ -268,7 +268,7 @@
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-blue-400 to-purple-500 text-white">
+                                         <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-purple-400 to-violet-500 text-white">
                       {{ user.role }}
                     </span>
                   </td>
@@ -309,18 +309,18 @@
                               name="username" 
                               placeholder="Username baru" 
                               value="{{ user.username }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-purple-400"
                             >
                             <input 
                               name="password" 
                               placeholder="Password baru" 
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-purple-400"
                             >
                             <input 
                               name="role" 
                               placeholder="Role baru" 
                               value="{{ user.role }}"
-                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-blue-400"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-purple-400"
                             >
                           </div>
                           
@@ -334,7 +334,7 @@
                             </button>
                             <button 
                               type="submit" 
-                              class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 text-sm font-medium"
+                                                             class="px-4 py-2 bg-gradient-to-r from-purple-500 to-violet-600 text-white rounded-lg hover:from-purple-600 hover:to-violet-700 transition-all duration-300 text-sm font-medium"
                             >
                               Update
                             </button>

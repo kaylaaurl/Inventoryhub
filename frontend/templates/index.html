@@ -6,50 +6,164 @@
   <title>InventoryHub Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .dashboard-glow {
+      box-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
+    }
+    
+    .hover-lift {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s infinite;
+    }
+    
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .nav-item {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s;
+    }
+    
+    .nav-item:hover::before {
+      left: 100%;
+    }
+    
+    .floating-element {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen font-sans">
-  <div class="flex">
-    <aside class="w-64 bg-white/70 backdrop-blur-md shadow-lg rounded-r-3xl p-6 flex flex-col space-y-4">
-      <h1 class="text-2xl font-bold text-blue-600 mb-4">📊 InventoryHub</h1>
-      <nav class="space-y-2">
-        <a href="/" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'dashboard' else 'hover:bg-blue-100' }}">📈 Dashboard</a>
-        <a href="/user" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'user' else 'hover:bg-blue-100' }}">👤 Kelola User</a>
-        <a href="/inventory" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'inventory' else 'hover:bg-blue-100' }}">📦 Kelola Inventaris</a>
-        <a href="/category" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'category' else 'hover:bg-blue-100' }}">🗂️ Kelola Kategori</a>
-        <a href="/supplier" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'supplier' else 'hover:bg-blue-100' }}">🚚 Kelola Supplier</a>
-        <a href="/notification" class="flex items-center px-4 py-2 rounded-lg text-blue-700 {{ 'bg-blue-100 font-medium' if current_page == 'notification' else 'hover:bg-blue-100' }}">🔔 Kelola Notifikasi</a>
+<body class="bg-gradient-to-br from-purple-900 via-violet-900 to-indigo-900 min-h-screen">
+  <!-- Background Effects -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-violet-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
+  </div>
+
+  <div class="flex relative z-10">
+    <!-- Sidebar -->
+    <aside class="w-72 glass-effect m-4 rounded-3xl p-6 flex flex-col space-y-4 shadow-2xl">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent mb-2">
+          📊 InventoryHub
+        </h1>
+        <div class="w-16 h-1 bg-gradient-to-r from-purple-400 to-violet-400 rounded-full mx-auto"></div>
+      </div>
+      
+      <nav class="space-y-3">
+        <a href="/" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-purple-500 to-violet-500 dashboard-glow font-semibold">
+          <span class="text-xl mr-3 animate-pulse">📈</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="/user" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">👤</span>
+          <span class="font-medium">Kelola User</span>
+        </a>
+        <a href="/inventory" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📦</span>
+          <span class="font-medium">Kelola Inventaris</span>
+        </a>
+        <a href="/category" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🗂️</span>
+          <span class="font-medium">Kelola Kategori</span>
+        </a>
+        <a href="/supplier" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🚚</span>
+          <span class="font-medium">Kelola Supplier</span>
+        </a>
+        <a href="/notification" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🔔</span>
+          <span class="font-medium">Kelola Notifikasi</span>
+        </a>
       </nav>
     </aside>
 
-    <main class="flex-1 p-8 space-y-6">
+    <!-- Main Content -->
+    <main class="flex-1 p-6 space-y-6">
+      <!-- Header -->
+      <div class="glass-effect rounded-2xl p-8 hover-lift">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-4xl font-bold text-white mb-2">📊 Dashboard InventoryHub</h1>
+            <p class="text-white/70 text-lg">Selamat datang di sistem manajemen inventaris terpadu</p>
+          </div>
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-violet-500 rounded-2xl flex items-center justify-center text-3xl floating-element">
+            📊
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
       <div class="grid grid-cols-5 gap-4" id="stats-cards"></div>
-      <div class="bg-white rounded-xl shadow-md p-6">
-        <h2 class="text-blue-600 font-semibold mb-4">Statistik User & Inventaris</h2>
+      
+      <!-- Charts Section -->
+      <div class="glass-effect rounded-xl p-6 hover-lift">
+        <h2 class="text-white font-semibold mb-4 text-xl">Statistik User & Inventaris</h2>
         <canvas id="barChart" height="100"></canvas>
       </div>
+      
       <div class="grid grid-cols-3 gap-4">
-        <div class="col-span-2 bg-white rounded-xl shadow-md p-6">
-          <h2 class="text-blue-600 font-semibold mb-4">Distribusi Kategori</h2>
+        <div class="col-span-2 glass-effect rounded-xl p-6 hover-lift">
+          <h2 class="text-white font-semibold mb-4 text-xl">Distribusi Kategori</h2>
           <canvas id="pieChart" height="150"></canvas>
         </div>
         <div class="flex flex-col space-y-4">
-          <div class="bg-white rounded-xl shadow p-4">
-            <h3 class="text-blue-600 font-semibold mb-2">💡 Tips Penggunaan</h3>
-            <ul class="text-sm text-gray-600 list-disc list-inside">
+          <div class="glass-effect rounded-xl p-4 hover-lift">
+            <h3 class="text-white font-semibold mb-2">💡 Tips Penggunaan</h3>
+            <ul class="text-white/70 text-sm list-disc list-inside">
               <li>Gunakan menu sidebar</li>
               <li>Perbarui data rutin</li>
               <li>Manfaatkan fitur notifikasi</li>
             </ul>
           </div>
-          <div class="bg-white rounded-xl shadow p-4">
-            <h3 class="text-blue-600 font-semibold mb-2">🕒 Aktivitas Terakhir</h3>
-            <ul class="text-sm text-gray-600 list-disc list-inside" id="recent-activity">
+          <div class="glass-effect rounded-xl p-4 hover-lift">
+            <h3 class="text-white font-semibold mb-2">🕒 Aktivitas Terakhir</h3>
+            <ul class="text-white/70 text-sm list-disc list-inside" id="recent-activity">
               <li>Memuat aktivitas...</li>
             </ul>
           </div>
-          <div class="bg-white rounded-xl shadow p-4">
-            <h3 class="text-blue-600 font-semibold mb-2">ℹ️ Quick Info</h3>
-            <p class="text-sm text-gray-500" id="quick-info">Dashboard InventoryHub siap membantu Anda!</p>
+          <div class="glass-effect rounded-xl p-4 hover-lift">
+            <h3 class="text-white font-semibold mb-2">ℹ️ Quick Info</h3>
+            <p class="text-white/60 text-sm" id="quick-info">Dashboard InventoryHub siap membantu Anda!</p>
           </div>
         </div>
       </div>
@@ -100,10 +214,10 @@
 
       document.getElementById('stats-cards').innerHTML = `
         ${[['User', userCount], ['Inventaris', inventoryCount], ['Kategori', categoryCount], ['Supplier', supplierCount], ['Notifikasi', notificationCount]].map(([label, count]) => `
-          <div class='bg-white rounded-xl p-4 shadow-md text-center'>
-            <p class='text-blue-600 text-sm'>${label}</p>
-            <p class='text-2xl font-bold'>${count}</p>
-            <p class='text-sm text-gray-500'>${count > 0 ? 'Tersedia' : 'Belum ada data'}</p>
+          <div class='glass-effect rounded-xl p-4 text-center hover-lift'>
+            <p class='text-white/80 text-sm'>${label}</p>
+            <p class='text-2xl font-bold text-white'>${count}</p>
+            <p class='text-sm text-white/60'>${count > 0 ? 'Tersedia' : 'Belum ada data'}</p>
           </div>
         `).join('')}`;
 
@@ -114,12 +228,16 @@
           datasets: [{
             label: 'Jumlah Data',
             data: [userCount, inventoryCount, categoryCount, supplierCount, notificationCount],
-            backgroundColor: ['#3b82f6', '#60a5fa', '#93c5fd', '#7dd3fc', '#fbbf24']
+            backgroundColor: ['#A855F7', '#8B5CF6', '#7C3AED', '#6D28D9', '#5B21B6']
           }]
         },
         options: {
           responsive: true,
-          plugins: { legend: { display: false } }
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { ticks: { color: 'white' } },
+            x: { ticks: { color: 'white' } }
+          }
         }
       });
 
@@ -140,12 +258,17 @@
           labels: pieLabels,
           datasets: [{
             data: pieData,
-            backgroundColor: ['#3b82f6', '#60a5fa', '#93c5fd', '#7dd3fc', '#fbbf24']
+            backgroundColor: ['#A855F7', '#8B5CF6', '#7C3AED', '#6D28D9', '#5B21B6']
           }]
         },
         options: {
           responsive: true,
-          plugins: { legend: { position: 'bottom' } }
+          plugins: { 
+            legend: { 
+              position: 'bottom',
+              labels: { color: 'white' }
+            }
+          }
         }
       });
 
