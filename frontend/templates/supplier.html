@@ -5,97 +5,402 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>InventoryHub - Kelola Supplier</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .supplier-glow {
+      box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+    }
+    
+    .hover-lift {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-input {
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+    
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s infinite;
+    }
+    
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .nav-item {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s;
+    }
+    
+    .nav-item:hover::before {
+      left: 100%;
+    }
+    
+    .table-row {
+      transition: all 0.3s ease;
+    }
+    
+    .table-row:hover {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(134, 239, 172, 0.1));
+      transform: scale(1.005);
+    }
+    
+    .update-form {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .update-form.active {
+      opacity: 1;
+      max-height: 200px;
+    }
+    
+    .supplier-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+    }
+    
+    .floating-element {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen font-sans">
-  <div class="flex">
-    <aside class="w-64 bg-white/70 backdrop-blur-md shadow-lg rounded-r-3xl p-6 flex flex-col space-y-4">
-      <h1 class="text-2xl font-bold text-blue-600 mb-4">📊 InventoryHub</h1>
-      <nav class="space-y-2">
-        <a href="/" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">📈 Dashboard</a>
-        <a href="/user" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">👤 Kelola User</a>
-        <a href="/inventory" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">📦 Kelola Inventaris</a>
-        <a href="/category" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">🗂️ Kelola Kategori</a>
-        <a href="/supplier" class="flex items-center px-4 py-2 rounded-lg text-blue-700 bg-blue-100 font-medium">🚚 Kelola Supplier</a>
-        <a href="/notification" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">🔔 Kelola Notifikasi</a>
+<body class="bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 min-h-screen">
+  <!-- Background Effects -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
+  </div>
+
+  <div class="flex relative z-10">
+    <!-- Sidebar -->
+    <aside class="w-72 glass-effect m-4 rounded-3xl p-6 flex flex-col space-y-4 shadow-2xl">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent mb-2">
+          📊 InventoryHub
+        </h1>
+        <div class="w-16 h-1 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full mx-auto"></div>
+      </div>
+      
+      <nav class="space-y-3">
+        <a href="/" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📈</span>
+          <span class="font-medium">Dashboard</span>
+        </a>
+        <a href="/user" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">👤</span>
+          <span class="font-medium">Kelola User</span>
+        </a>
+        <a href="/inventory" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📦</span>
+          <span class="font-medium">Kelola Inventaris</span>
+        </a>
+        <a href="/category" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🗂️</span>
+          <span class="font-medium">Kelola Kategori</span>
+        </a>
+        <a href="/supplier" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-emerald-500 to-teal-500 supplier-glow font-semibold">
+          <span class="text-xl mr-3 animate-pulse">🚚</span>
+          <span>Kelola Supplier</span>
+        </a>
+        <a href="/notification" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🔔</span>
+          <span class="font-medium">Kelola Notifikasi</span>
+        </a>
       </nav>
     </aside>
 
-    <main class="flex-1 p-8">
-      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-        <h1 class="text-2xl font-bold text-blue-600 mb-6">🚚 Kelola Supplier</h1>
-
-        <div class="mb-8">
-          <h2 class="text-xl font-semibold text-blue-600 mb-4">➕ Tambah / Update Supplier</h2>
-          <form method="POST" class="space-y-4">
-            <input type="hidden" name="action" value="add">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Nama:</label>
-              <input name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Contact Person:</label>
-              <input name="contact_person" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Telepon:</label>
-              <input name="phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Email:</label>
-              <input name="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Alamat:</label>
-              <input name="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Tambah</button>
-          </form>
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <div class="glass-effect rounded-2xl p-8 mb-8 hover-lift">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-4xl font-bold text-white mb-2">🚚 Kelola Supplier</h1>
+            <p class="text-white/70 text-lg">Kelola data supplier dan partner bisnis Anda</p>
+          </div>
+          <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center text-3xl floating-element">
+            🚚
+          </div>
         </div>
+      </div>
 
-        <div>
-          <h2 class="text-xl font-semibold text-blue-600 mb-4">📋 Daftar Supplier</h2>
+      <!-- Add Supplier Form -->
+      <div class="glass-effect rounded-2xl p-8 mb-8 hover-lift">
+        <div class="flex items-center mb-6">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+            ➕
+          </div>
+          <h2 class="text-2xl font-bold text-white">Tambah / Update Supplier</h2>
+        </div>
+        
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input type="hidden" name="action" value="add">
+          
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-white/90">Nama Supplier</label>
+            <input 
+              name="name" 
+              required 
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              placeholder="Masukkan nama supplier"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-white/90">Contact Person</label>
+            <input 
+              name="contact_person" 
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              placeholder="Nama contact person"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-white/90">Telepon</label>
+            <input 
+              name="phone" 
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              placeholder="Nomor telepon"
+            >
+          </div>
+          
+          <div class="space-y-2">
+            <label class="block text-sm font-semibold text-white/90">Email</label>
+            <input 
+              name="email" 
+              type="email"
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              placeholder="Email supplier"
+            >
+          </div>
+          
+          <div class="space-y-2 md:col-span-2">
+            <label class="block text-sm font-semibold text-white/90">Alamat</label>
+            <input 
+              name="address" 
+              class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-emerald-400 focus:bg-white/20"
+              placeholder="Alamat lengkap supplier"
+            >
+          </div>
+          
+          <div class="md:col-span-2">
+            <button 
+              type="submit" 
+              class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <span class="flex items-center justify-center">
+                <span class="mr-2">✨</span>
+                Tambah Supplier
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Suppliers List -->
+      <div class="glass-effect rounded-2xl p-8 hover-lift">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+              📋
+            </div>
+            <h2 class="text-2xl font-bold text-white">Daftar Supplier</h2>
+          </div>
+          <div class="px-4 py-2 bg-white/10 rounded-full">
+            <span class="text-white/80 text-sm font-medium">Total: <span class="text-white font-bold">{{ suppliers|length if suppliers else 0 }}</span></span>
+          </div>
+        </div>
+        
+        <div class="overflow-hidden rounded-xl border border-white/20">
           <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+            <table class="min-w-full">
+              <thead class="bg-white/10 backdrop-blur-sm">
                 <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Person</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Telepon</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Alamat</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">ID</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Nama</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Contact Person</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Telepon</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Email</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Alamat</th>
+                  <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Aksi</th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody class="divide-y divide-white/10">
                 {% for sup in suppliers %}
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sup.id }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ sup.name }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sup.contact_person }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sup.phone }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sup.email }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ sup.address }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <form method="POST" class="inline">
-                      <input type="hidden" name="action" value="delete">
-                      <input type="hidden" name="id" value="{{ sup.id }}">
-                      <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
-                    </form>
-
-                    <form method="POST" class="inline ml-4">
-                      <input type="hidden" name="action" value="update">
-                      <input type="hidden" name="id" value="{{ sup.id }}">
-                      <input name="name" placeholder="Nama baru" class="border rounded px-2 py-1">
-                      <input name="contact_person" placeholder="CP baru" class="border rounded px-2 py-1">
-                      <input name="phone" placeholder="Telepon baru" class="border rounded px-2 py-1">
-                      <input name="email" placeholder="Email baru" class="border rounded px-2 py-1">
-                      <input name="address" placeholder="Alamat baru" class="border rounded px-2 py-1">
-                      <button type="submit" class="text-blue-600 hover:text-blue-900">Update</button>
-                    </form>
+                <tr class="table-row" id="row-{{ sup.id }}">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="w-8 h-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                      {{ sup.id }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
+                        {{ sup.name[0] if sup.name else 'S' }}
+                      </div>
+                      <div>
+                        <div class="text-white font-medium">{{ sup.name }}</div>
+                        <div class="text-white/60 text-xs">Supplier</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-white/80">{{ sup.contact_person or '-' }}</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-white/80">{{ sup.phone or '-' }}</span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-white/80">{{ sup.email or '-' }}</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="max-w-xs truncate text-white/80" title="{{ sup.address }}">
+                      {{ sup.address or '-' }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex flex-col space-y-2">
+                      <!-- Action Buttons -->
+                      <div class="flex space-x-2">
+                        <button 
+                          onclick="toggleUpdateForm({{ sup.id }})"
+                          class="group flex items-center px-3 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+                        >
+                          <span class="mr-2">✏️</span>
+                          <span class="text-xs font-medium">Edit</span>
+                        </button>
+                        
+                        <form method="POST" class="inline">
+                          <input type="hidden" name="action" value="delete">
+                          <input type="hidden" name="id" value="{{ sup.id }}">
+                          <button 
+                            type="submit" 
+                            class="group flex items-center px-3 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+                            onclick="return confirm('Apakah Anda yakin ingin menghapus supplier {{ sup.name }}?')"
+                          >
+                            <span class="mr-2 group-hover:animate-pulse">🗑️</span>
+                            <span class="text-xs font-medium">Hapus</span>
+                          </button>
+                        </form>
+                      </div>
+                      
+                      <!-- Update Form -->
+                      <div class="update-form" id="update-form-{{ sup.id }}">
+                        <form method="POST" class="supplier-card rounded-lg p-4 space-y-3">
+                          <input type="hidden" name="action" value="update">
+                          <input type="hidden" name="id" value="{{ sup.id }}">
+                          
+                          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <input 
+                              name="name" 
+                              placeholder="Nama baru" 
+                              value="{{ sup.name }}"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                            >
+                            <input 
+                              name="contact_person" 
+                              placeholder="CP baru" 
+                              value="{{ sup.contact_person or '' }}"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                            >
+                            <input 
+                              name="phone" 
+                              placeholder="Telepon baru" 
+                              value="{{ sup.phone or '' }}"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                            >
+                            <input 
+                              name="email" 
+                              placeholder="Email baru" 
+                              value="{{ sup.email or '' }}"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400"
+                            >
+                            <input 
+                              name="address" 
+                              placeholder="Alamat baru" 
+                              value="{{ sup.address or '' }}"
+                              class="px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 text-sm focus:outline-none focus:border-emerald-400 sm:col-span-2"
+                            >
+                          </div>
+                          
+                          <div class="flex justify-end space-x-2">
+                            <button 
+                              type="button"
+                              onclick="toggleUpdateForm({{ sup.id }})"
+                              class="px-4 py-2 bg-gray-500/20 text-gray-400 rounded-lg hover:bg-gray-500 hover:text-white transition-all duration-300 text-sm"
+                            >
+                              Batal
+                            </button>
+                            <button 
+                              type="submit" 
+                              class="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 text-sm font-medium"
+                            >
+                              Update
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                   </td>
                 </tr>
                 {% endfor %}
+                
+                {% if not suppliers %}
+                <tr>
+                  <td colspan="7" class="px-6 py-12 text-center">
+                    <div class="flex flex-col items-center justify-center">
+                      <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-2xl">🚚</span>
+                      </div>
+                      <p class="text-white/60 text-lg">Belum ada supplier</p>
+                      <p class="text-white/40 text-sm mt-1">Tambahkan supplier pertama Anda</p>
+                    </div>
+                  </td>
+                </tr>
+                {% endif %}
               </tbody>
             </table>
           </div>
@@ -103,5 +408,49 @@
       </div>
     </main>
   </div>
+
+  <script>
+    // Toggle update form visibility
+    function toggleUpdateForm(supplierId) {
+      const form = document.getElementById(`update-form-${supplierId}`);
+      if (form.classList.contains('active')) {
+        form.classList.remove('active');
+      } else {
+        // Close all other forms
+        document.querySelectorAll('.update-form').forEach(f => f.classList.remove('active'));
+        form.classList.add('active');
+      }
+    }
+
+    // Add smooth scrolling and form interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth form submission feedback
+      const forms = document.querySelectorAll('form');
+      forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          const submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn && !submitBtn.onclick) {
+            submitBtn.classList.add('animate-pulse');
+            submitBtn.disabled = true;
+            setTimeout(() => {
+              submitBtn.classList.remove('animate-pulse');
+              submitBtn.disabled = false;
+            }, 2000);
+          }
+        });
+      });
+
+      // Add hover effects to table rows
+      const tableRows = document.querySelectorAll('.table-row');
+      tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.02)';
+        });
+        row.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
