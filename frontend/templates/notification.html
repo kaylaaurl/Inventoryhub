@@ -1,50 +1,368 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Kelola Notifikasi</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InventoryHub - Kelola Notifikasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .notification-glow {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+    }
+    
+    .hover-lift {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-input {
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .status-pending {
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      color: #92400E;
+    }
+    
+    .status-sent {
+      background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+      color: #1E40AF;
+    }
+    
+    .status-read {
+      background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+      color: #065F46;
+    }
+    
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s infinite;
+    }
+    
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .nav-item {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s;
+    }
+    
+    .nav-item:hover::before {
+      left: 100%;
+    }
+    
+    .table-row {
+      transition: all 0.3s ease;
+    }
+    
+    .table-row:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 197, 253, 0.1));
+      transform: scale(1.005);
+    }
+  </style>
 </head>
-<body>
-  <h1>🔔 Kelola Notifikasi</h1>
+<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 min-h-screen">
+  <!-- Background Effects -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-subtle" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse-subtle" style="animation-delay: 2s;"></div>
+  </div>
 
-  <h2>➕ Tambah Notifikasi</h2>
-  <form method="POST">
-    <input type="hidden" name="action" value="add">
-    <label>User ID: <input name="user_id" type="number" required></label><br>
-    <label>Item ID: <input name="item_id" type="number" required></label><br>
-    <label>Pesan: <input name="message" required></label><br>
-    <label>Status:
-      <select name="status">
-        <option value="pending">pending</option>
-        <option value="sent">sent</option>
-        <option value="read">read</option>
-      </select>
-    </label><br>
-    <button type="submit">Tambah</button>
-  </form>
+  <div class="flex relative z-10">
+    <!-- Sidebar -->
+    <aside class="w-72 glass-effect m-4 rounded-3xl p-6 flex flex-col space-y-4 shadow-2xl">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+          📊 InventoryHub
+        </h1>
+        <div class="w-16 h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mx-auto"></div>
+      </div>
+      
+      <nav class="space-y-3">
+        <a href="/" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📈</span>
+          <span class="font-medium">Dashboard</span>
+        </a>
+        <a href="/user" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">👤</span>
+          <span class="font-medium">Kelola User</span>
+        </a>
+        <a href="/inventory" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">📦</span>
+          <span class="font-medium">Kelola Inventaris</span>
+        </a>
+        <a href="/category" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🗂️</span>
+          <span class="font-medium">Kelola Kategori</span>
+        </a>
+        <a href="/supplier" class="nav-item flex items-center px-6 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300 group">
+          <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🚚</span>
+          <span class="font-medium">Kelola Supplier</span>
+        </a>
+        <a href="/notification" class="nav-item flex items-center px-6 py-3 rounded-xl text-white bg-gradient-to-r from-blue-500 to-purple-500 notification-glow font-semibold">
+          <span class="text-xl mr-3 animate-pulse">🔔</span>
+          <span>Kelola Notifikasi</span>
+        </a>
+      </nav>
+    </aside>
 
-  <h2>📋 Daftar Notifikasi</h2>
-  <table border="1">
-    <tr>
-      <th>ID</th><th>User ID</th><th>Item ID</th><th>Pesan</th><th>Status</th><th>Aksi</th>
-    </tr>
-    {% for notif in notifications %}
-    <tr>
-      <td>{{ notif.id }}</td>
-      <td>{{ notif.user_id }}</td>
-      <td>{{ notif.item_id }}</td>
-      <td>{{ notif.message }}</td>
-      <td>{{ notif.status }}</td>
-      <td>
-        <form method="POST" style="display:inline;">
-          <input type="hidden" name="action" value="delete">
-          <input type="hidden" name="id" value="{{ notif.id }}">
-          <button type="submit">Hapus</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+      <!-- Header -->
+      <div class="glass-effect rounded-2xl p-8 mb-8 hover-lift">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-4xl font-bold text-white mb-2">🔔 Kelola Notifikasi</h1>
+            <p class="text-white/70 text-lg">Kelola sistem notifikasi inventory dengan mudah</p>
+          </div>
+          <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center text-3xl animate-pulse-subtle">
+            🔔
+          </div>
+        </div>
+      </div>
 
-  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- Add Notification Form -->
+        <div class="glass-effect rounded-2xl p-8 hover-lift">
+          <div class="flex items-center mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+              ➕
+            </div>
+            <h2 class="text-2xl font-bold text-white">Tambah Notifikasi</h2>
+          </div>
+          
+          <form method="POST" class="space-y-6">
+            <input type="hidden" name="action" value="add">
+            
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-white/90">User ID</label>
+              <input 
+                name="user_id" 
+                type="number" 
+                required 
+                class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
+                placeholder="Masukkan User ID"
+              >
+            </div>
+            
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-white/90">Item ID</label>
+              <input 
+                name="item_id" 
+                type="number" 
+                required 
+                class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
+                placeholder="Masukkan Item ID"
+              >
+            </div>
+            
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-white/90">Pesan</label>
+              <input 
+                name="message" 
+                required 
+                class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-blue-400 focus:bg-white/20"
+                placeholder="Tulis pesan notifikasi"
+              >
+            </div>
+            
+            <div class="space-y-2">
+              <label class="block text-sm font-semibold text-white/90">Status</label>
+              <select 
+                name="status" 
+                class="form-input block w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-blue-400 focus:bg-white/20"
+              >
+                <option value="pending" class="bg-slate-800">Pending</option>
+                <option value="sent" class="bg-slate-800">Sent</option>
+                <option value="read" class="bg-slate-800">Read</option>
+              </select>
+            </div>
+            
+            <button 
+              type="submit" 
+              class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-xl hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <span class="flex items-center justify-center">
+                <span class="mr-2">✨</span>
+                Tambah Notifikasi
+              </span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="glass-effect rounded-2xl p-8 hover-lift">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+              <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center text-white font-bold mr-4">
+                📋
+              </div>
+              <h2 class="text-2xl font-bold text-white">Daftar Notifikasi</h2>
+            </div>
+            <div class="px-4 py-2 bg-white/10 rounded-full">
+              <span class="text-white/80 text-sm font-medium">Total: <span class="text-white font-bold">{{ notifications|length if notifications else 0 }}</span></span>
+            </div>
+          </div>
+          
+          <div class="overflow-hidden rounded-xl border border-white/20">
+            <div class="overflow-x-auto max-h-96">
+              <table class="min-w-full">
+                <thead class="bg-white/10 backdrop-blur-sm">
+                  <tr>
+                    <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">ID</th>
+                    <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">User</th>
+                    <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Item</th>
+                    <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Pesan</th>
+                    <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-bold text-white/90 uppercase tracking-wider">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-white/10">
+                  {% for notif in notifications %}
+                  <tr class="table-row">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                        {{ notif.id }}
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs mr-3">
+                          {{ notif.user_id }}
+                        </div>
+                        <span class="text-white font-medium">User {{ notif.user_id }}</span>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="text-white/80 font-medium">{{ notif.item_id }}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="max-w-xs truncate text-white/80" title="{{ notif.message }}">
+                        {{ notif.message }}
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="status-badge status-{{ notif.status }}">
+                        {% if notif.status == 'pending' %}⏳ Pending
+                        {% elif notif.status == 'sent' %}📤 Sent  
+                        {% else %}✅ Read
+                        {% endif %}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <form method="POST" class="inline">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="{{ notif.id }}">
+                        <button 
+                          type="submit" 
+                          class="group flex items-center px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-105"
+                          onclick="return confirm('Apakah Anda yakin ingin menghapus notifikasi ini?')"
+                        >
+                          <span class="mr-2 group-hover:animate-pulse">🗑️</span>
+                          <span class="font-medium">Hapus</span>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                  {% if not notifications %}
+                  <tr>
+                    <td colspan="6" class="px-6 py-12 text-center">
+                      <div class="flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4">
+                          <span class="text-2xl">📭</span>
+                        </div>
+                        <p class="text-white/60 text-lg">Belum ada notifikasi</p>
+                        <p class="text-white/40 text-sm mt-1">Tambahkan notifikasi pertama Anda</p>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Add smooth scrolling and form interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Smooth form submission feedback
+      const forms = document.querySelectorAll('form');
+      forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          const submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) {
+            submitBtn.classList.add('animate-pulse');
+            submitBtn.disabled = true;
+            setTimeout(() => {
+              submitBtn.classList.remove('animate-pulse');
+              submitBtn.disabled = false;
+            }, 2000);
+          }
+        });
+      });
+
+      // Add hover effects to table rows
+      const tableRows = document.querySelectorAll('.table-row');
+      tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.02)';
+        });
+        row.addEventListener('mouseleave', function() {
+          this.style.transform = 'scale(1)';
+        });
+      });
+    });
+  </script>
 </body>
 </html>

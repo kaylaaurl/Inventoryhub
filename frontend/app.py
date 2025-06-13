@@ -1,19 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 import requests
 
 app = Flask(__name__)
 
 GRAPHQL_ENDPOINTS = {
-    "user": "http://localhost:5001/graphql",
-    "inventory": "http://localhost:5002/graphql",
-    "category": "http://localhost:5004/graphql",
-    "supplier": "http://localhost:5010/graphql",
-    "notification": "http://localhost:5005/graphql",
+    "user" : "http://user-service:5001/graphql",
+    "supplier" : "http://supplier-service:5003/graphql",
+    "inventory" : "http://inventory-service:5002/graphql",
+    "notification" : "http://notifications-service:5005/graphql",
+    "category" : "http://category-service:5004/graphql",
 }
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/")
+def dashboard():
+    return render_template("index.html", current_page="dashboard")
+
 
 # ------------------- USER SERVICE -------------------
 @app.route("/user", methods=["GET", "POST"])
@@ -329,5 +334,35 @@ def notification():
 
     return render_template("notification.html", notifications=notifications)
 
+@app.route("/graphql", methods=["POST"])
+def proxy_user_graphql():
+    user_graphql_url = "http://user-service:5001/graphql"
+    resp = requests.post(user_graphql_url, json=request.get_json())
+    return Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
+
+@app.route("/inventory-graphql", methods=["POST"])
+def proxy_inventory_graphql():
+    inventory_graphql_url = "http://inventory-service:5002/graphql"
+    resp = requests.post(inventory_graphql_url, json=request.get_json())
+    return Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
+
+@app.route("/category-graphql", methods=["POST"])
+def proxy_category_graphql():
+    category_graphql_url = "http://category-service:5004/graphql"
+    resp = requests.post(category_graphql_url, json=request.get_json())
+    return Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
+
+@app.route("/supplier-graphql", methods=["POST"])
+def proxy_supplier_graphql():
+    supplier_graphql_url = "http://supplier-service:5003/graphql"
+    resp = requests.post(supplier_graphql_url, json=request.get_json())
+    return Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
+
+@app.route("/notification-graphql", methods=["POST"])
+def proxy_notification_graphql():
+    notification_graphql_url = "http://notifications-service:5005/graphql"
+    resp = requests.post(notification_graphql_url, json=request.get_json())
+    return Response(resp.content, status=resp.status_code, content_type=resp.headers.get('Content-Type'))
+
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(debug=True, host="0.0.0.0", port=8000)

@@ -1,0 +1,14 @@
+# Gunakan base image Python
+FROM python:3.10
+
+# Set working directory
+WORKDIR /app
+
+# Copy semua file dari folder frontend ke container
+COPY . .
+
+# Install dependency
+RUN pip install --no-cache-dir flask requests
+
+# Jalankan Flask
+CMD ["python", "app.py"]
