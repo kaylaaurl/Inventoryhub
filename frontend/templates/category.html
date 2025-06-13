@@ -1,48 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Kelola Kategori</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InventoryHub - Kelola Kategori</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>🗂️ Kelola Kategori</h1>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen font-sans">
+  <div class="flex">
+    <aside class="w-64 bg-white/70 backdrop-blur-md shadow-lg rounded-r-3xl p-6 flex flex-col space-y-4">
+      <h1 class="text-2xl font-bold text-blue-600 mb-4">📊 InventoryHub</h1>
+      <nav class="space-y-2">
+        <a href="/" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">📈 Dashboard</a>
+        <a href="/user" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">👤 Kelola User</a>
+        <a href="/inventory" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">📦 Kelola Inventaris</a>
+        <a href="/category" class="flex items-center px-4 py-2 rounded-lg text-blue-700 bg-blue-100 font-medium">🗂️ Kelola Kategori</a>
+        <a href="/supplier" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">🚚 Kelola Supplier</a>
+        <a href="/notification" class="flex items-center px-4 py-2 rounded-lg text-blue-700 hover:bg-blue-100">🔔 Kelola Notifikasi</a>
+      </nav>
+    </aside>
 
-  <h2>➕ Tambah / Update Kategori</h2>
-  <form method="POST">
-    <input type="hidden" name="action" value="add">
-    <label>Nama: <input name="name" required></label><br>
-    <label>Deskripsi: <input name="description"></label><br>
-    <button type="submit">Tambah</button>
-  </form>
+    <main class="flex-1 p-8">
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <h1 class="text-2xl font-bold text-blue-600 mb-6">🗂️ Kelola Kategori</h1>
 
-  <h2>📋 Daftar Kategori</h2>
-  <table border="1">
-    <tr>
-      <th>ID</th><th>Nama</th><th>Deskripsi</th><th>Aksi</th>
-    </tr>
-    {% for cat in categories %}
-    <tr>
-      <td>{{ cat.id }}</td>
-      <td>{{ cat.name }}</td>
-      <td>{{ cat.description }}</td>
-      <td>
-        <form method="POST" style="display:inline;">
-          <input type="hidden" name="action" value="delete">
-          <input type="hidden" name="id" value="{{ cat.id }}">
-          <button type="submit">Hapus</button>
-        </form>
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold text-blue-600 mb-4">➕ Tambah / Update Kategori</h2>
+          <form method="POST" class="space-y-4">
+            <input type="hidden" name="action" value="add">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Nama:</label>
+              <input name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Deskripsi:</label>
+              <input name="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Tambah</button>
+          </form>
+        </div>
 
-        <form method="POST" style="display:inline; margin-left: 10px;">
-          <input type="hidden" name="action" value="update">
-          <input type="hidden" name="id" value="{{ cat.id }}">
-          <input name="name" placeholder="Nama baru">
-          <input name="description" placeholder="Deskripsi baru">
-          <button type="submit">Update</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
+        <div>
+          <h2 class="text-xl font-semibold text-blue-600 mb-4">📋 Daftar Kategori</h2>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {% for cat in categories %}
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cat.id }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ cat.name }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cat.description }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <form method="POST" class="inline">
+                      <input type="hidden" name="action" value="delete">
+                      <input type="hidden" name="id" value="{{ cat.id }}">
+                      <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
+                    </form>
 
-  <p><a href="/">⬅️ Kembali ke Dashboard</a></p>
+                    <form method="POST" class="inline ml-4">
+                      <input type="hidden" name="action" value="update">
+                      <input type="hidden" name="id" value="{{ cat.id }}">
+                      <input name="name" placeholder="Nama baru" class="border rounded px-2 py-1">
+                      <input name="description" placeholder="Deskripsi baru" class="border rounded px-2 py-1">
+                      <button type="submit" class="text-blue-600 hover:text-blue-900">Update</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

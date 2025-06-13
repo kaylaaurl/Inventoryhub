@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 GRAPHQL_ENDPOINTS = {
     "user" : "http://user-service:5001/graphql",
-    "supplier" : "http://supplier-service:5010/graphql",
+    "supplier" : "http://supplier-service:5003/graphql",
     "inventory" : "http://inventory-service:5002/graphql",
     "notification" : "http://notifications-service:5005/graphql",
     "category" : "http://category-service:5004/graphql",
